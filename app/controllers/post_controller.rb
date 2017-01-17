@@ -16,7 +16,7 @@ class PostController < ApplicationController
     ActionCable.server.broadcast "posts_#{@key}",
                                  params: params
 
-    render plain: 'Ok', status: 200
+    render json: request.headers, status: 200
   end
 
   def check_secret
