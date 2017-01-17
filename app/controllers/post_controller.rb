@@ -1,4 +1,5 @@
 require 'securerandom'
+# broadcast controller
 class PostController < ApplicationController
   before_action :check_secret
 
@@ -13,7 +14,8 @@ class PostController < ApplicationController
 
   def broadcast
     @key = params[:key]
-    params[:headers] = request.headers
+    params[:headers] = request.headers.env.select { |k, _| k =~ /^HTTP_/ }
+
     ActionCable.server.broadcast "posts_#{@key}",
                                  params: params
 
@@ -21,7 +23,7 @@ class PostController < ApplicationController
   end
 
   def check_secret
-    response.headers['X-Hook-Secret'] = request.headers['X-Hook-Secret']
+    # response.headers['X-Hook-Secret'] = request.headers['X-Hook-Secret']
   end
 
   def build_key
