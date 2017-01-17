@@ -1,6 +1,7 @@
 require 'securerandom'
-
 class PostController < ApplicationController
+  before_action :check_secret
+
   def index
     @key = build_key
     redirect_to "/endpoint/#{@key}"
@@ -15,9 +16,11 @@ class PostController < ApplicationController
     ActionCable.server.broadcast "posts_#{@key}",
                                  params: params
 
-    response.headers['X-Hook-Secret'] = request.headers['X-Hook-Secret']
-
     render plain: 'Ok', status: 200
+  end
+
+  def check_secret
+    response.headers['X-Hook-Secret'] = request.headers['X-Hook-Secret']
   end
 
   def build_key
