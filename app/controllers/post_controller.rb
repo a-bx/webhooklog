@@ -13,10 +13,11 @@ class PostController < ApplicationController
 
   def broadcast
     @key = params[:key]
+    params[:headers] = request.headers
     ActionCable.server.broadcast "posts_#{@key}",
                                  params: params
 
-    render plain: 'Ok', status: 200
+    render plain: 'OK', status: 200
   end
 
   def check_secret
