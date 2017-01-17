@@ -14,7 +14,10 @@ class PostController < ApplicationController
     @key = params[:key]
     ActionCable.server.broadcast "posts_#{@key}",
                                  params: params
-    render json: @key
+
+    response.headers['X-Hook-Secret'] = request.headers['X-Hook-Secret']
+
+    render plain: 'Ok', status: 200
   end
 
   def build_key
