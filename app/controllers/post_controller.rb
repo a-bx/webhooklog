@@ -14,6 +14,7 @@ class PostController < ApplicationController
     @key = params[:key]
     ActionCable.server.broadcast "posts_#{@key}",
                                  params: params
+    render json: @key
   end
 
   def build_key
