@@ -23,7 +23,7 @@ class PostController < ApplicationController
   end
 
   def check_secret
-    # response.headers['X-Hook-Secret'] = request.headers['X-Hook-Secret']
+    response.headers['X-Hook-Secret'] = request.headers['X-Hook-Secret']
   end
 
   def build_key
