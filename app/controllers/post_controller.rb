@@ -17,7 +17,7 @@ class PostController < ApplicationController
     @key = params[:key]
     params[:headers] = request.headers.env.select { |k, _| k =~ /^HTTP_/ }
     broadcast_params params
-    render plain: 'OK', status: 200
+    render json: params, status: 200
   end
 
   private
