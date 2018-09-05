@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   #
   root to: 'post#index'
   match 'endpoint/:key', to: 'post#endpoint', via: [:get]
-  match 'endpoint/:key', to: 'post#broadcast', via: [:post, :put, :delete]
+  match 'endpoint/:key', to: 'post#broadcast', via: %i[post put patch delete]
 end

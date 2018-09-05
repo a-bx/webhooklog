@@ -10,16 +10,21 @@ class PostController < ApplicationController
 
   def endpoint
     @key = params[:key]
+    broadcast_params params
   end
 
   def broadcast
     @key = params[:key]
     params[:headers] = request.headers.env.select { |k, _| k =~ /^HTTP_/ }
+    broadcast_params params
+    render plain: 'OK', status: 200
+  end
 
+  private
+
+  def broadcast_params(params)
     ActionCable.server.broadcast "posts_#{@key}",
                                  params: params
-
-    render plain: 'OK', status: 200
   end
 
   def check_secret
