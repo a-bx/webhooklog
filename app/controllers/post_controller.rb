@@ -10,7 +10,14 @@ class PostController < ApplicationController
 
   def endpoint
     @key = params[:key]
-    broadcast_params params
+    respond_to do |format|
+      format.html do
+        broadcast_params params
+      end
+      format.json do
+        broadcast
+      end
+    end
   end
 
   def broadcast
